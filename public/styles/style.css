@@ -294,6 +294,59 @@
       opacity: 1;
     }
   }
+  .hidden {
+    display: none;
+  }
+  
+  .mood-selector-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .mood-selector {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+  }
+  
+  .mood-icon {
+    margin-top: 60px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s, border 0.3s;
+  }
+  
+  .mood-icon:hover {
+    opacity: 1;
+  }
+  
+  .mood-icon.selected {
+    opacity: 1;
+  }
+  
+  .btn {
+    margin-top: 40px;
+    width: 100%;
+    height: 40px;
+    background: white;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(100, 100, 111, 0.2);
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--light-text);
+    font-weight: 600;
+  }
 
   /* SIGN UP FORM */
 
