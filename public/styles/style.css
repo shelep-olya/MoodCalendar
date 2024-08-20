@@ -538,10 +538,43 @@ section{
     color: #9796f090;
     transform: translateY(-5px);
 }
+/* STATISTICS */
+.chart-container {
+  width: 300px;
+  height: 300px;
+  position: relative;
+  margin: 50px auto;
+  background: conic-gradient(
+      #FF6384 0% 25%,   
+      #36A2EB 25% 40%,
+      #FFCE56 40% 50%,  
+      #4BC0C0 50% 80%, 
+      #9966FF 80% 100% 
+  );
+  border-radius: 50%;
+}
+
+.chart-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
 /* RESPONSIVE */
-  @media (max-width:375px) {
+
+@media (max-width:991px){
+  .graphBox{
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+}
+
+@media (max-width:375px) {
     .month-list>div{
   
       margin: 5px 0px;
     }
-  }
+}
