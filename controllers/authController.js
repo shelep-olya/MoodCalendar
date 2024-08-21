@@ -15,6 +15,19 @@ exports.signup = async(req, res) => {
     res.redirect("/login");
 };
 
+exports.isAuthenticated = (req, res, next) => {
+    if (req.session && req.session.userId) { 
+        User.findById(req.session.userId, (err, user) => {
+            if (err || !user) {
+                return res.status(401).json({ message: 'Unauthorized' });
+            }
+            req.user = user;
+            next();
+        });
+    } else {
+        res.status(401).json({ message: 'Unauthorized' });
+    }
+};
 exports.login = async(req, res) => {
     const {email, password} = req.body;
     const user = await User.findOne({email});

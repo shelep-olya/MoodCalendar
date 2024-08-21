@@ -1,15 +1,14 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const moodEntrySchema = new mongoose.Schema({
+const moodSchema = new mongoose.Schema({
+    mood: {
+        type: String,
+        required: true,
+    },
     date: {
         type: Date,
         required: true,
     },
-    mood: {
-        type: String,
-        enum: ["happy", "sad", "depressed", "angry", "excited", "neutural"], 
-        required: true,
-    },
 });
 
-module.exports = moodEntrySchema;
+module.exports = moodSchema;

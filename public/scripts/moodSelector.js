@@ -44,12 +44,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     saveMoodButton.addEventListener('click', () => {
         if (selectedMood && selectedDate) {
-            console.log(`Mood for ${selectedDate}: ${selectedMood.alt}`);
-            moodSelectorContainer.classList.add('hidden');
-            selectedMood.classList.remove("selected");
-            selectedMood = null;
-
-           
+            const currentDate = new Date();
+            const selectedDateObj = new Date(currentDate.getFullYear(), currentDate.getMonth(), selectedDate);
+    
+            const daysDifference = Math.floor((currentDate - selectedDateObj) / (1000 * 60 * 60 * 24));
+    
+            if (daysDifference >= 0 && daysDifference <= 5) {
+                const payload = {
+                    date: selectedDateObj,
+                    mood: selectedMood.alt,
+                };
+    
+                fetch('/save-mood', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Mood saved:', data);
+                    moodSelectorContainer.classList.add('hidden');
+                    selectedMood.classList.remove("selected");
+                    selectedMood = null;
+                })
+                .catch(error => console.error('Error:', error));
+            } else {
+                alert("You can only select today or the past 5 days.");
+            }
         }
     });
 });

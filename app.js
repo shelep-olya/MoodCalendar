@@ -11,9 +11,11 @@ const authLayout = "../views/layouts/auth.ejs";
 const mongoSanitize = require('express-mongo-sanitize');
 const session = require("express-session");
 const mongoDbSession = require("connect-mongodb-session")(session);
+
 //routers
 const viewsRouter = require("./routes/viewsRoutes");
 const authRouter = require("./routes/authRoutes");
+const userRouter = require("./routes/userRoutes");
 
 const app = express();
 
@@ -29,6 +31,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: store,
+    cookie: { secure: false }
 }));
 
 const limiter = rateLimit({
@@ -60,6 +63,7 @@ app.use(setLayout);
 //ROUTING
 app.use("/", viewsRouter);
 app.use("/auth", authRouter);
+app.use("/", userRouter);
 
 app.all("*", (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

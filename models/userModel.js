@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const moodEntrySchema = require("./moodSchema");
+const moodSchema = require("./moodSchema");
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: [true, "Please enter username"],
@@ -16,7 +16,7 @@ const userSchema = mongoose.Schema({
         type: String,
         required: [true, "Please enter password"],
     },
-    moodEntries: [moodEntrySchema],
+    moodEntries: [moodSchema], 
 });
 
 const User = mongoose.model('User', userSchema);
