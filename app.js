@@ -9,8 +9,9 @@ const helmet = require("helmet");
 const mainLayout = "../views/layouts/main.ejs";
 const authLayout = "../views/layouts/auth.ejs";
 const mongoSanitize = require('express-mongo-sanitize');
-const session = require("express-session");
-const mongoDbSession = require("connect-mongodb-session")(session);
+
+
+
 
 //routers
 const viewsRouter = require("./routes/viewsRoutes");
@@ -20,19 +21,6 @@ const userRouter = require("./routes/userRoutes");
 const app = express();
 
 app.use(helmet());
-//setting req.session
-const store = new mongoDbSession({
-    uri: process.env.DB_URI,
-    collection: 'sessions',
-});
-
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    store: store,
-    cookie: { secure: false }
-}));
 
 const limiter = rateLimit({
     max: 1000,
