@@ -14,6 +14,4 @@ exports.getCalendarPage = (req, res) => {
     res.status(200).render("calendar", {layout: authLayout});
 };
 
-exports.getStatisticsPage = (req, res) => {
-    res.status(200).render("statistics", {layout: authLayout});
-};
+

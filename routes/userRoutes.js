@@ -5,4 +5,6 @@ const router = express.Router();
 
 router.post("/save-mood", authController.protect, userController.saveMood);
 
+router.get("/auth/statistics", authController.protect, userController.getMoodStatisctics);
+
 module.exports = router;

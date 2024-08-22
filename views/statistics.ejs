@@ -1,4 +1,33 @@
-<div class="chart-container">
-    <div class="chart-label">Mood Stats</div>
+<% if (message === "bad") { %>
+    <div class="help-heading">
+    <h4 class="">We've been following your mood for a while. If you feel that it's getting too hard, here are several places where you can get help.
+        <br>here are some helpfull information for you:
+    </h4>
+    <ul class="help-links">
+        <li><a href="https://mindlyspace.com/">Mindly Space</a></li>
+        <li><a href="https://www.rozmova.me/">Rozmova</a></li>
+        <li><a href="https://www.rozmova.me/tests">Tests</a></li>
+    </ul>
 </div>
-<script src="/scripts/chart.js"></script>
+<% } %>
+<div class="bar-chart-container">
+    <% const totalEmotions = sad.length + angry.length + depressed.length + neutural.length + happy.length + exited.length; %>
+    <div class="bar sad-bar" style="height: <%= (sad.length / totalEmotions) * 100 %>%;">
+        <p>sad: <%= sad.length %></p>
+    </div>
+    <div class="bar angry-bar" style="height: <%= (angry.length / totalEmotions) * 100 %>%;">
+        <p>angry: <%= angry.length %></p>
+    </div>
+    <div class="bar depressed-bar" style="height: <%= (depressed.length / totalEmotions) * 100 %>%;">
+        <p>depressed: <%= depressed.length %></p>
+    </div>
+    <div class="bar neutural-bar" style="height: <%= (neutural.length / totalEmotions) * 100 %>%;">
+        <p>neutural: <%= neutural.length %></p>
+    </div>
+    <div class="bar happy-bar" style="height: <%= (happy.length / totalEmotions) * 100 %>%;">
+        <p>happy: <%= happy.length %></p>
+    </div>
+    <div class="bar exited-bar" style="height: <%= (exited.length / totalEmotions) * 100 %>%;">
+        <p>excited: <%= exited.length %></p>
+    </div>
+</div>
