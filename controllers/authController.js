@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const catchAsync = require("../utils/catchAsync");
 
 const createAndSendToken = (user, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -14,7 +15,7 @@ const createAndSendToken = (user, res) => {
     user.password = undefined; 
 };
 
-exports.signup = async (req, res) => {
+exports.signup = catchAsync(async (req, res) => {
     const user = await User.create({
         username: req.body.username,
         email: req.body.email,
@@ -22,9 +23,9 @@ exports.signup = async (req, res) => {
     });
     createAndSendToken(user, res);
     res.redirect("/login");
-};
+});
 
-exports.protect = async (req, res, next) => {
+exports.protect = catchAsync(async (req, res, next) => {
     let token;
     if (req.cookies.jwt) {
         token = req.cookies.jwt;
@@ -49,9 +50,9 @@ exports.protect = async (req, res, next) => {
     }
 
     next();
-};
+});
 
-exports.login = async (req, res, next) => {
+exports.login = catchAsync(async (req, res, next) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -64,7 +65,7 @@ exports.login = async (req, res, next) => {
     }
     createAndSendToken(user, res);
     res.redirect("/auth");
-};
+});
 
 exports.logout = (req, res) => {
     res.cookie('jwt', 'loggedout', {
@@ -73,3 +74,8 @@ exports.logout = (req, res) => {
     });
     res.redirect("/login");
 };
+
+exports.deleteAccount = catchAsync(async(req, res) => {
+    await User.findByIdAndDelete(req.user._id);
+    res.status(204).redirect("/");
+});

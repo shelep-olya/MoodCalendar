@@ -1,7 +1,8 @@
 const User = require("../models/userModel");
 const authLayout = "../views/layouts/auth";
-exports.saveMood = async(req, res) => {
-    try {
+const catchAsync = require("../utils/catchAsync");
+
+exports.saveMood = catchAsync(async(req, res) => {
         if (!req.user) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
@@ -25,13 +26,9 @@ exports.saveMood = async(req, res) => {
         await user.save(); 
 
         res.status(200).json({ message: "Mood saved successfully" });
-    } catch (err) {
-        console.log(`An error occurred with mood saving: ${err.message}`);
-        res.status(500).json({ error: 'An error occurred while saving mood.' });
-    }
-};
+});
 
-exports.getMoodStatisctics = async(req, res) => {
+exports.getMoodStatisctics = catchAsync(async(req, res) => {
     const user = await User.findById(req.user._id);
     const emotions = user.moodEntries;
     let sad = [];
@@ -83,8 +80,9 @@ exports.getMoodStatisctics = async(req, res) => {
         exited,
         neutural,
     });
-};
-exports.getMyMoods = async (req, res) => {
+});
+
+exports.getMyMoods = catchAsync(async (req, res) => {
     const user = await User.findById(req.user._id).select('moodEntries');
     const emotions = user.moodEntries.map(emotion => {
         const formattedDate = new Date(emotion.date).toLocaleDateString('en-GB'); 
@@ -106,9 +104,9 @@ exports.getMyMoods = async (req, res) => {
         emotions,
         moodIcons
     });
-};
+});
 
-exports.deleteEmotion = async(req, res) => {
+exports.deleteEmotion = catchAsync(async(req, res) => {
     const userId = req.user._id;
         const emotionId = req.params.id;
 
@@ -118,4 +116,38 @@ exports.deleteEmotion = async(req, res) => {
 
         res.status(200).json({ message: "Emotion deleted successfully" });
     
-}
+});
+
+exports.updateEmotion = catchAsync(async (req, res) => {
+    const userId = req.user._id;
+    const emotionId = req.params.id;
+    const { mood } = req.body;
+
+    const moodIcons = [
+        { mood: "happy", icon: "/emotions/happy.png" },
+        { mood: "sad", icon: "/emotions/sad.png" },
+        { mood: "angry", icon: "/emotions/angry.png" },
+        { mood: "neutral", icon: "/emotions/neutral.png" },
+        { mood: "depressed", icon: "/emotions/depressed.png" },
+        { mood: "excited", icon: "/emotions/excited.png" },
+    ];
+
+    const selectedIcon = moodIcons.find(item => item.mood === mood)?.icon;
+
+    if (!selectedIcon) {
+        return res.status(400).json({ message: "Invalid mood selected" });
+    }
+
+    await User.findOneAndUpdate(
+        { _id: userId, "moodEntries._id": emotionId },
+        {
+            $set: {
+                "moodEntries.$.mood": mood,
+                "moodEntries.$.icon": selectedIcon,
+            },
+        }
+    );
+
+    res.status(200).json({ message: "Emotion updated successfully" });
+});
+
