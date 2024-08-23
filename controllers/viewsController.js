@@ -14,4 +14,7 @@ exports.getCalendarPage = (req, res) => {
     res.status(200).render("calendar", {layout: authLayout});
 };
 
+exports.getSettingsPage = (req, res) => {
+    res.status(200).render("settings", {layout: authLayout});
+}
 

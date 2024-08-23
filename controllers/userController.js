@@ -83,4 +83,39 @@ exports.getMoodStatisctics = async(req, res) => {
         exited,
         neutural,
     });
+};
+exports.getMyMoods = async (req, res) => {
+    const user = await User.findById(req.user._id).select('moodEntries');
+    const emotions = user.moodEntries.map(emotion => {
+        const formattedDate = new Date(emotion.date).toLocaleDateString('en-GB'); 
+        return {
+            ...emotion._doc, 
+            date: formattedDate
+        };
+    });
+    const moodIcons = [
+        { mood: "happy", icon: "/emotions/happy.png" },
+        { mood: "sad", icon: "/emotions/sad.png" },
+        { mood: "angry", icon: "/emotions/angry.png" },
+        { mood: "neutural", icon: "/emotions/neutural.png" },
+        { mood: "depressed", icon: "/emotions/depressed.png" },
+        { mood: "exited", icon: "/emotions/exited.png" },
+    ];
+    res.status(200).render('myMoods', {
+        layout: authLayout,
+        emotions,
+        moodIcons
+    });
+};
+
+exports.deleteEmotion = async(req, res) => {
+    const userId = req.user._id;
+        const emotionId = req.params.id;
+
+        await User.findByIdAndUpdate(userId, {
+            $pull: { moodEntries: { _id: emotionId } }
+        });
+
+        res.status(200).json({ message: "Emotion deleted successfully" });
+    
 }

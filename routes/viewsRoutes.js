@@ -6,6 +6,4 @@ router.get("/", viewsController.getMainPage);
 router.get("/login", viewsController.getLoginPage);
 
 
-
-
 module.exports = router;

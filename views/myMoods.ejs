@@ -1,0 +1,19 @@
+<div class="date-container">
+    <% emotions.forEach(emotion => { 
+        const moodClass = `${emotion.mood}-bar`;
+        const icon = moodIcons.find(m => m.mood === emotion.mood).icon;
+    %>
+        <div class="date <%= moodClass %>">
+            <button class="button delete-btn" data-id="<%= emotion._id %>">
+                <i class='bx bxs-message-square-x'></i>
+            </button>
+            <button class="button change-btn" data-id="<%= emotion._id %>">
+                <i class='bx bxs-message-square-edit'></i>
+            </button>
+            <img src="<%= icon %>" alt="<%= emotion.mood %> icon" class="mood-icon" />
+            <p><%= emotion.date %></p>
+            <p>Mood: <%= emotion.mood %></p>
+        </div>
+    <% }) %>
+    </div>
+<script src="/scripts/deleteMood.js"></script>
