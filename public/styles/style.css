@@ -29,26 +29,23 @@
 
   /* CALENDAR */
   .contianer {
-    width: max-content;
-    height: max-content;
     display: flex;
-    padding: 2% 0px 0px 0px;
     justify-content: center;
-    top: 10%;
-    right: 0%;
+    align-items: center;
+    padding: 2% 0;
     width: 100%;
-    height: 100%;
+    height: auto;
+    box-sizing: border-box;
   }
+  
   .calendar {
-    height: 610px;
-    width: max-content;
     background-color: white;
     border-radius: 25px;
     overflow: hidden;
-    padding: 30px 50px 0px 50px;
-  }
-  .calendar {
+    padding: 30px;
     box-shadow: var(--shadow);
+    max-width: 100%;
+    box-sizing: border-box;
   }
   .calendar-header {
     background: #9796f0;
@@ -59,32 +56,27 @@
     color: var(--white);
     padding: 10px;
   }
+  
   .calendar-body {
-    pad: 10px;
+    padding: 10px;
   }
-  .calendar-week-days {
+  .calendar-week-days, .calendar-days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    font-weight: 600;
-    cursor: pointer;
-    color:rgb(104, 104, 104);
-  }
-  .calendar-week-days div:hover {
-  color:black;
-  transform: scale(1.2);
-  transition: all .2s ease-in-out;
+    gap: 2px;
   }
   .calendar-week-days div {
     display: grid;
     place-items: center;
-    color: var(--bg-second);
+    color: rgb(104, 104, 104);
     height: 50px;
+    font-weight: 600;
+    cursor: pointer;
   }
-  .calendar-days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
-    color: var(--color-txt);
+  .calendar-week-days div:hover {
+    color: black;
+    transform: scale(1.2);
+    transition: all .2s ease-in-out;
   }
   .calendar-days div {
     width: 37px;
@@ -97,6 +89,12 @@
     cursor: pointer;
     animation: to-top 1s forwards;
   }
+  .calendar-days div:hover {
+    background-color: #fbc7d4;
+    border-radius: 20%;
+    color: var(--dark-text);
+    transition: width 0.2s ease-in-out, height 0.2s ease-in-out;
+  }
   .month-picker {
     padding: 5px 10px;
     border-radius: 10px;
@@ -104,33 +102,37 @@
   }
   .month-picker:hover {
     background-color: var(--color-hover);
+    color: var(--color-txt);
   }
   .month-picker:hover {
     color: var(--color-txt);
   }
-  .year-picker {
-    display: flex;
-    align-items: center;
-  }
-  .year-change {
-    height: 30px;
-    width: 30px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    margin: 0px 10px;
-    cursor: pointer;
-  }
-  .year-change:hover {
-    background-color: var(--light-btn);
-    transition:all .2s ease-in-out ;
-    transform: scale(1.12);
-  }
+ 
+.year-picker {
+  display: flex;
+  align-items: center;
+}
+ 
+.year-change {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.year-change:hover {
+  background-color: var(--light-btn);
+  transition: all .2s ease-in-out;
+  transform: scale(1.12);
+}
   .year-change:hover pre {
     color: var(--bg-body);
   }
+
   .calendar-footer {
-    padding: 10px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -149,6 +151,7 @@
     border-radius: 20%;
     color: var(--dark-text);
   }
+
   .calendar-days div.current-date {
     color: var(--dark-text);
     background-color: var(--light-btn);
@@ -195,53 +198,6 @@
     animation: to-right 1s forwards;
     visibility: none;
     pointer-events: none;
-  }
-  .date-time-formate {
-    width: max-content;
-    height: max-content;
-    font-family: Dubai Light, Century Gothic;
-    position: relative;
-    display: inline;
-    top: 140px;
-    justify-content: center;
-  }
-  .day-text-formate {
-    font-family: Microsoft JhengHei UI;
-    font-size: 1.4rem;
-    padding-right: 5%;
-    border-right: 3px solid #9796f0;
-    position: absolute;
-    left: -1rem;
-  }
-  .date-time-value {
-    display: block;
-    height: max-content;
-    width: max-content;
-    position: relative;
-    left: 40%;
-    top: -18px;
-    text-align: center;
-  }
-  .time-formate {
-    font-size: 1.5rem;
-  }
-  .time-formate.hideTime {
-    animation: hidetime 1.5s forwards;
-  }
-  .day-text-formate.hidetime {
-    animation: hidetime 1.5s forwards;
-  }
-  .date-formate.hideTime {
-    animation: hidetime 1.5s forwards;
-  }
-  .day-text-formate.showtime{
-    animation: showtime 1s forwards;
-  }
-  .time-formate.showtime {
-    animation: showtime 1s forwards;
-  }
-  .date-formate.showtime {
-    animation: showtime 1s forwards;
   }
 
 
@@ -298,7 +254,6 @@
   .hidden {
     display: none;
   }
-  
   .mood-selector-container {
     position: absolute;
     top: 50%;
@@ -306,134 +261,177 @@
     transform: translate(-50%, -50%);
     background: white;
     padding: 20px;
+    border-radius: 10px;;
     border: 1px solid #ccc;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-  }
-  
-  .mood-selector {
+    overflow: hidden; 
+}
+
+#hideButton {
+    position: absolute;
+    top: 10px; 
+    left: 10px; 
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+#hideButton i {
+   margin: 12px;
+   font-size: 20px; 
+   color: var(--light-btn); 
+}
+#hideButton i:hover{
+  color: var(--light-text); 
+}
+
+.mood-selector {
     display: flex;
     justify-content: space-around;
+    margin-top: 40px;
     margin-bottom: 10px;
-  }
-  
-  .mood-icon {
-    margin-top: 60px;
+}
+
+.mood-icon {
     width: 30px;
     height: 30px;
     cursor: pointer;
     opacity: 0.7;
     transition: opacity 0.3s, border 0.3s;
-  }
-  
-  .mood-icon:hover {
+}
+
+.mood-icon:hover {
     opacity: 1;
-  }
-  
-  .mood-icon.selected {
+}
+
+.mood-icon.selected {
     opacity: 1;
-  }
-  
-  .btn {
+}
+
+.btn {
     margin-top: 40px;
     width: 100%;
     height: 40px;
     background: white;
-    border: none;
+    border: 1px solid var(--light-second);
     outline: none;
     border-radius: 40px;
-    box-shadow: 0 0 10px rgba(100, 100, 111, 0.2);
     cursor: pointer;
     font-size: 14px;
     color: var(--light-text);
     font-weight: 600;
-  }
+}
+.btn:hover{
+  box-shadow: 0 0 10px rgba(100, 100, 111, 0.2);
+}
 
   /* SIGN UP FORM */
-
-.wrapper{
+  .wrapper {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 420px;
+    width: 90%;
+    max-width: 420px;
     color: white;
     border-radius: 10px;
-    padding: 30px 40px;
-   
+    padding: 20px;
+    margin: 20px auto; 
 }
-.wrapper h1{
-    font-size: 36px;
+
+.wrapper h1 {
+    font-size: 28px;
     text-align: center;
+    margin-bottom: 20px;
 }
-.wrapper .input-box{
+.input-box {
     position: relative;
     width: 100%;
     height: 50px;
-    margin: 30px 0;
+    margin: 15px 0;
 }
-.input-box input{
+
+.input-box input {
     width: 100%;
     height: 100%;
     background: transparent;
-    border: none;
-    outline: none;
-    border: 2px solid rgba(100, 100, 111, 0.2);
-    border-radius: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 25px; 
     color: white;
-    padding: 20px 45px 20px 20px;
+    padding: 0 20px; 
+    box-sizing: border-box; 
 }
-.input-box input::placeholder{
-    color: white;
+
+.input-box input::placeholder {
+    color: rgba(255, 255, 255, 0.7); 
 }
+
 .input-box i {
     position: absolute;
-    right: 20px;
+    right: 15px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 20px;
+    color: rgba(255, 255, 255, 0.7); 
 }
-.wrapper .remember-forgot{
+
+.remember-forgot {
     display: flex;
     justify-content: space-between;
-    font-size: 14.5px;
-    margin: -15px 0 15px;
+    font-size: 14px;
+    margin: 15px 0;
+    color: rgba(255, 255, 255, 0.8);
 }
-.remember-forgot label input{
-    accent-color: var(--light-body);
-    margin-right: 3px;
+
+.remember-forgot label input {
+    accent-color: #f7f7f7; 
+    margin-right: 5px;
 }
-.remember-forgot a{
-    color: white;
+
+.remember-forgot a {
+    color: #f7f7f7;
     text-decoration: none;
 }
-.remember-forgot a:hover{
+
+.remember-forgot a:hover {
     text-decoration: underline;
 }
-.wrapper .btn{
+
+.wrapper .btn {
     width: 100%;
-    height: 45px;
-    background: white;
+    height: 45px; 
     border: none;
     outline: none;
-    border-radius: 40px;
-    box-shadow: 0 0 10px rgba(100, 100, 111, 0.2);
+    border-radius: 25px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     font-size: 16px;
     color: var(--light-text);
     font-weight: 600;
+    transition: background-color 0.3s ease;
 }
-.wrapper .register-link{
-    font-size: 14.5px;
+
+.wrapper .btn:hover {
+    background: var(--light-hover); 
+}
+.register-link {
+    font-size: 14px;
     text-align: center;
-    margin: 20px 0px 15px;
+    margin-top: 20px;
 }
-.register-link p a{
-    color: white;
+
+.register-link p a {
+    color: var(--light-hover);
     text-decoration: none;
     font-weight: 600;
 }
-.register-link p a:hover{
+
+.register-link p a:hover {
     text-decoration: underline;
 }
+
 
 /* HEADER */
 
@@ -636,8 +634,8 @@ section{
   background-color: white;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start; /* Aligns items to the start */
-  gap: 10px; /* Controls the spacing between elements */
+  justify-content: flex-start; 
+  gap: 10px; 
 }
 
 .date {
@@ -690,15 +688,41 @@ section{
   padding: 2rem 4rem;
   margin: 2rem;
 }
-/* RESPONSIVE */
-
-@media (max-width:991px){
-  .graphBox{
-    grid-template-columns: 1fr;
-    height: auto;
-  }
+/* ERROR */
+.error-message{
+  text-align: center;
+  font-weight: 900;
+  padding: 2rem;
+  margin: 2rem;
 }
 
+/* RESPONSIVE */
+@media (max-width:480px) {
+  .calendar {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+  }
+
+  .calendar-header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .calendar-week-days div, .calendar-days div {
+    font-size: 12px;
+  }
+
+  .mood-selector-container {
+    width: 90%;
+    top: 50%;
+  }
+
+  .mood-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
 @media (max-width:375px) {
     .month-list>div{
   
@@ -706,6 +730,65 @@ section{
     }
 }
 @media (max-width: 768px) {
+  .calendar {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .calendar-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .year-picker {
+    margin-top: 10px;
+  }
+
+  .calendar-week-days div {
+    font-size: 14px;
+  }
+
+  .calendar-days div {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .mood-selector-container {
+    width: 80%;
+    padding: 10px;
+    top: 60%;
+  }
+
+  .mood-icon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .wrapper h1 {
+    font-size: 24px;
+}
+
+.input-box input {
+    height: 40px;
+    padding: 0 15px;
+}
+
+.input-box i {
+    font-size: 18px;
+}
+
+.btn {
+    height: 40px;
+    font-size: 14px;
+}
+
+.remember-forgot {
+    font-size: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
   .bar-chart-container {
     flex-direction: column;
     align-items: center;

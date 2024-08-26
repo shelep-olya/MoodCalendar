@@ -18,3 +18,4 @@ exports.getSettingsPage = (req, res) => {
     res.status(200).render("settings", {layout: authLayout});
 }
 
+

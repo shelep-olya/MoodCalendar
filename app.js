@@ -10,9 +10,6 @@ const mainLayout = "../views/layouts/main.ejs";
 const authLayout = "../views/layouts/auth.ejs";
 const mongoSanitize = require('express-mongo-sanitize');
 
-
-
-
 //routers
 const viewsRouter = require("./routes/viewsRoutes");
 const authRouter = require("./routes/authRoutes");
@@ -53,7 +50,38 @@ app.use("/", viewsRouter);
 app.use("/auth", authRouter);
 app.use("/", userRouter);
 
+//ERROR HANDLING
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    err.statusCode = err.statusCode || 500;
+    err.message = err.message || 'Something went wrong!';
+    if (process.env.NODE_ENV === 'development') {
+      res.status(err.statusCode).render('error', {
+        layout: 'main', 
+        message: err.message,
+        stack: err.stack
+      });
+    } else if (process.env.NODE_ENV === 'production') {
+      res.status(err.statusCode).render('error', {
+        layout: mainLayout,
+        message: err.isOperational ? err.message : 'Something went wrong!'
+      });
+    }
+  });
+
+process.on('uncaughtException', err => {
+    console.error('Uncaught Exception:', err);
+    process.exit(1); 
+});
+process.on('unhandledRejection', err => {
+    console.error('Unhandled Rejection:', err);
+    process.exit(1);
+});
+
 app.all("*", (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
+
+
+
 module.exports = app;

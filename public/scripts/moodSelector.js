@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
     const moodIcons = [
         { mood: "happy", icon: "/emotions/happy.png" },
