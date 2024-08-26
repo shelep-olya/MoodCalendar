@@ -28,57 +28,48 @@ exports.saveMood = catchAsync(async(req, res) => {
         res.status(200).json({ message: "Mood saved successfully" });
 });
 
-exports.getMoodStatisctics = catchAsync(async(req, res) => {
+exports.getMoodStatisctics = catchAsync(async (req, res) => {
     const user = await User.findById(req.user._id);
     const emotions = user.moodEntries;
-    let sad = [];
-    let angry = [];
-    let depressed = [];
-    let exited = [];
-    let happy = [];
-    let neutural = [];
-    emotions.forEach(emotion => {
-        if(emotion.mood === "sad"){
-            sad.push(emotion)
-        };
-        if(emotion.mood === "angry"){
-            angry.push(emotion)
-        };
-        if(emotion.mood === "depressed"){
-            depressed.push(emotion)
-        };
-        if(emotion.mood === "exited"){
-            exited.push(emotion)
-        };
-        if(emotion.mood === "happy"){
-            happy.push(emotion)
-        };
-        if(emotion.mood === "neutural"){
-            neutural.push(emotion)
-        };
-    });
-    const negativeEmotions = sad.concat(angry).concat(depressed);
-    if(negativeEmotions.length >= 10){
-        res.status(200).render("statistics", {
-            layout: authLayout,
-            message: "bad",
-            sad,
-            depressed,
-            angry,
-            happy,
-            exited,
-            neutural,
-        });
+
+    // Filter negative emotions and sort by date
+    const negativeEmotions = emotions
+        .filter(e => ["sad", "angry", "depressed"].includes(e.mood))
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
+    
+    let consecutiveCount = 0;
+    for (let i = 1; i < negativeEmotions.length; i++) {
+        const currentEmotionDate = new Date(negativeEmotions[i].date);
+        const previousEmotionDate = new Date(negativeEmotions[i - 1].date);
+        const differenceInDays = (currentEmotionDate - previousEmotionDate) / (1000 * 60 * 60 * 24);
+        if (differenceInDays === 1) {
+            consecutiveCount++;
+            if (consecutiveCount >= 9) { 
+                return res.status(200).render("statistics", {
+                    layout: authLayout,
+                    message: "bad",
+                    sad: emotions.filter(e => e.mood === "sad"),
+                    depressed: emotions.filter(e => e.mood === "depressed"),
+                    angry: emotions.filter(e => e.mood === "angry"),
+                    happy: emotions.filter(e => e.mood === "happy"),
+                    exited: emotions.filter(e => e.mood === "exited"),
+                    neutural: emotions.filter(e => e.mood === "neutural"),
+                });
+            }
+        } else {
+            consecutiveCount = 0; 
+        }
     }
+
     res.status(200).render("statistics", {
         layout: authLayout,
         message: "okay",
-        sad,
-        depressed,
-        angry,
-        happy,
-        exited,
-        neutural,
+        sad: emotions.filter(e => e.mood === "sad"),
+        depressed: emotions.filter(e => e.mood === "depressed"),
+        angry: emotions.filter(e => e.mood === "angry"),
+        happy: emotions.filter(e => e.mood === "happy"),
+        exited: emotions.filter(e => e.mood === "exited"),
+        neutural: emotions.filter(e => e.mood === "neutural"),
     });
 });
 
