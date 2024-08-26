@@ -129,7 +129,7 @@ exports.updateEmotion = catchAsync(async (req, res) => {
         { mood: "angry", icon: "/emotions/angry.png" },
         { mood: "neutral", icon: "/emotions/neutral.png" },
         { mood: "depressed", icon: "/emotions/depressed.png" },
-        { mood: "excited", icon: "/emotions/excited.png" },
+        { mood: "exited", icon: "/emotions/exited.png" },
     ];
 
     const selectedIcon = moodIcons.find(item => item.mood === mood)?.icon;

@@ -60,9 +60,17 @@ exports.login = catchAsync(async (req, res, next) => {
     }
 
     const user = await User.findOne({ email }).select('+password');
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    if (!user) {
+        console.log('User not found');
         return next(new Error('Incorrect email or password', 401));
     }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+        console.log('Password mismatch');
+        return next(new Error('Incorrect email or password', 401));
+    }
+
     createAndSendToken(user, res);
     res.redirect("/auth");
 });

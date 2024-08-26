@@ -8,4 +8,5 @@ router.get("/auth/statistics", authController.protect, userController.getMoodSta
 router.get("/myMoods", authController.protect, userController.getMyMoods);
 
 router.delete("/moods/:id", authController.protect, userController.deleteEmotion);
+router.patch("/moods/:id", authController.protect, userController.updateEmotion);
 module.exports = router;

@@ -12,7 +12,6 @@ document.querySelectorAll('.delete-btn').forEach(button => {
             .then(response => response.json())
             .then(data => {
                 if (data.message === "Emotion deleted successfully") {
-                    // Optionally remove the element from the DOM
                     this.closest('.date').remove();
                 } else {
                     console.error("Failed to delete emotion:", data.message);

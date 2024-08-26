@@ -1,7 +1,8 @@
 <div class="date-container">
     <% emotions.forEach(emotion => { 
+        const moodIconEntry = moodIcons.find(m => m.mood === emotion.mood);
+        const icon = moodIconEntry ? moodIconEntry.icon : '/emotions/happy.png'; 
         const moodClass = `${emotion.mood}-bar`;
-        const icon = moodIcons.find(m => m.mood === emotion.mood).icon;
     %>
         <div class="date <%= moodClass %>">
             <button class="button delete-btn" data-id="<%= emotion._id %>">
@@ -15,5 +16,15 @@
             <p>Mood: <%= emotion.mood %></p>
         </div>
     <% }) %>
+</div>
+
+<!-- Mood Selector Container -->
+<div id="mood-selector-container" class="mood-selector-container hidden">
+    <div id="mood-selector" class="mood-selector">
+        <!-- Icons will be dynamically added here -->
     </div>
+    <button id="save-mood" class="btn">Save Mood</button>
+</div>
+
 <script src="/scripts/deleteMood.js"></script>
+<script src="/scripts/updateMood.js"></script>

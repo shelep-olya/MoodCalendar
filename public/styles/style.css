@@ -631,10 +631,13 @@ section{
 
 /* MY MOOD */
 .date-container {
+  margin: 2rem;
+  padding: 2rem;
+  background-color: white;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 10px; /* Space between squares */
+  justify-content: flex-start; /* Aligns items to the start */
+  gap: 10px; /* Controls the spacing between elements */
 }
 
 .date {
@@ -647,7 +650,6 @@ section{
   justify-content: center;
   padding: 10px;
   border-radius: 10px;
-  margin: 10px;
   color: #fff;
   box-sizing: border-box;
 }
@@ -681,8 +683,13 @@ section{
 .change-btn {
   left: 5px;
 }
-
-
+/* SETTINGS */
+.settings-container{
+  border: 2px solid var(--light-main);
+  border-radius: 40px;
+  padding: 2rem 4rem;
+  margin: 2rem;
+}
 /* RESPONSIVE */
 
 @media (max-width:991px){
